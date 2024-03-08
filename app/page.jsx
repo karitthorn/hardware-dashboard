@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Navbar from "@/app/components/navbar";
 import { Line } from "react-chartjs-2";
 import Footer from "@/app/components/footer";
@@ -38,7 +37,7 @@ export default function Home() {
       // Authentication
       clientId: "mqttx_179ec7eb",
       username: "b6610502129",
-      password: "nitisarath.p@ku.th",
+      password: process.env.password,
     };
     const client = mqtt.connect(url, options);
     // client.on("connect", function () {
