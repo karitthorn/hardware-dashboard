@@ -62,7 +62,7 @@ export default function Home() {
     console.log(err);
   }
   // -------------------------------------
-  const [dataset, setDataset] = useState([2,4,5,1]);
+  const [dataset, setDataset] = useState([2, 4, 5, 1]);
   const [fast, setFast] = useState(1);
   const [slow, setSlow] = useState(3);
   const [now, setNow] = useState(5);
@@ -95,7 +95,7 @@ export default function Home() {
     const lowValue = Math.min(...dataset);
     const highValue = Math.max(...dataset);
     const lastValue = dataset[dataset.length - 1];
-    setNow(lastValue)
+    setNow(lastValue);
     setFast(lowValue);
     setSlow(highValue);
   }, [dataset]);
@@ -140,7 +140,9 @@ export default function Home() {
           <Line options={options_line} data={data} />
         </div>
       </section>
-      <Footer />
+      <div className="fixed bottom-0 w-full">
+        <Footer />
+      </div>
     </>
   );
 }
