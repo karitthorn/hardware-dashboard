@@ -21,7 +21,7 @@ export default function Home() {
    * EMQX's default port for ws connection is 8083 and for wss connection is 8084.
    * Note that you need to add a path after the connection address, such as /mqtt.
    */
-  const url = "https://iot.cpe.ku.ac.th/b6610502129/price";
+  const url = "https://iot.cpe.ku.ac.th/b6610502129/time2press";
   /***
    * Node.js
    * This document explains how to use MQTT over TCP with both mqtt and mqtts protocols.
@@ -41,19 +41,24 @@ export default function Home() {
       password: "nitisarath.p@ku.th",
     };
     const client = mqtt.connect(url, options);
-    client.on("connect", function () {
-      console.log("Connected");
-      // Subscribe to a topic
-      client.subscribe("test", function (err) {
-        if (!err) {
-          // Publish a message to a topic
-          client.publish("test", "Hello mqtt");
-        }
-      });
-    });
+    // client.on("connect", function () {
+    //   // Subscribe to a topic
+    //   client.subscribe("b6610502129/time2press", function (err,message) {
+    //     if (!err) {
+    //       // Publish a message to a topic
+    //       // client.publish("b6610502129/time2press", "one7four");
+    //     // console.log(message.toString());
+    //     }
+    //     if (err) {
+    //       console.log("Error")
+
+    //     }
+    //   });
+    // });
 
     // Receive messages
     client.on("message", function (topic, message) {
+      console.log("Connected");
       // message is Buffer
       console.log(message.toString());
       client.end();
