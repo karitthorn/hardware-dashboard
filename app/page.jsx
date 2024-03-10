@@ -2,7 +2,6 @@
 import Navbar from "@/app/components/navbar";
 import { Line } from "react-chartjs-2";
 import Footer from "@/app/components/footer";
-import mqtt from "mqtt";
 import {
   Chart,
   CategoryScale,
@@ -11,7 +10,6 @@ import {
   LineElement,
 } from "chart.js";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 export default function Home() {
   // -------------------------------------
   const [dataset, setDataset] = useState([]);
