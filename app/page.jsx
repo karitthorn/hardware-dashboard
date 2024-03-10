@@ -11,62 +11,10 @@ import {
   LineElement,
 } from "chart.js";
 import { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
 export default function Home() {
-  // -----------------------------------
-  /***
-   * Browser
-   * This document explains how to use MQTT over WebSocket with the ws and wss protocols.
-   * EMQX's default port for ws connection is 8083 and for wss connection is 8084.
-   * Note that you need to add a path after the connection address, such as /mqtt.
-   */
-  const url = "https://iot.cpe.ku.ac.th/b6610502129/time2press";
-  /***
-   * Node.js
-   * This document explains how to use MQTT over TCP with both mqtt and mqtts protocols.
-   * EMQX's default port for mqtt connections is 1883, while for mqtts it is 8883.
-   */
-  // const url = 'mqtt://broker.emqx.io:1883'
-
-  // Create an MQTT client instance
-  try {
-    const options = {
-      // Clean session
-      clean: true,
-      connectTimeout: 4000,
-      // Authentication
-      clientId: "mqttx_179ec7eb",
-      username: "b6610502129",
-      password: process.env.password,
-    };
-    const client = mqtt.connect(url, options);
-    // client.on("connect", function () {
-    //   // Subscribe to a topic
-    //   client.subscribe("b6610502129/time2press", function (err,message) {
-    //     if (!err) {
-    //       // Publish a message to a topic
-    //       // client.publish("b6610502129/time2press", "one7four");
-    //     // console.log(message.toString());
-    //     }
-    //     if (err) {
-    //       console.log("Error")
-
-    //     }
-    //   });
-    // });
-
-    // Receive messages
-    client.on("message", function (topic, message) {
-      console.log("Connected");
-      // message is Buffer
-      console.log(message.toString());
-      client.end();
-    });
-  } catch (err) {
-    console.log(err);
-  }
   // -------------------------------------
-  const [dataset, setDataset] = useState([2, 4, 5, 1]);
+  const [dataset, setDataset] = useState([]);
   const [fast, setFast] = useState(1);
   const [slow, setSlow] = useState(3);
   const [now, setNow] = useState(5);
@@ -104,6 +52,19 @@ export default function Home() {
     setSlow(highValue);
   }, [dataset]);
 
+  useEffect(() => {
+    fetch("https://iot.cpe.ku.ac.th/red/b6610502129/test/hello.txt")
+      .then((response) => response.text())
+      .then((data) => {
+        const parsedData = JSON.parse(data);
+        const convertedData = parsedData.map(value => value / 1000);
+        setDataset(convertedData);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+  // -----------------------------------
+
+
   return (
     <>
       <Navbar />
@@ -116,7 +77,7 @@ export default function Home() {
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
             🚀 เร็วที่สุด
           </h5>
-          <p className="font-normal text-gray-700">{fast} นาที</p>
+          <p className="font-normal text-gray-700">{fast} วินาที</p>
         </div>
         <div
           href="#"
@@ -125,7 +86,7 @@ export default function Home() {
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
             🔗 ล่าสุด
           </h5>
-          <p className="font-normal text-gray-700">{now} นาที</p>
+          <p className="font-normal text-gray-700">{now} วินาที</p>
         </div>
         <div
           href="#"
@@ -134,7 +95,7 @@ export default function Home() {
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
             💤 ช้าที่สุด
           </h5>
-          <p className="font-xl text-gray-700 ">{slow} นาที</p>
+          <p className="font-xl text-gray-700 ">{slow} วินาที</p>
         </div>
       </section>
 
